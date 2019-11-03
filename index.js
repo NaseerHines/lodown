@@ -394,13 +394,14 @@ module.exports.pluck = pluck;
  
  
  
- /**
-  * extend:
-  * 
-  * @param {Object} An Object:
-  * @param {Object} More Objects:
-  * @return {Object} First Object:
-  * 
+/**
+ * extend: takes an undefined number of objects and turns them into an array (rest parameter).
+ * loop through array of objects and copy key-value pairs from following objects to first object.
+ * return first object.
+ * 
+ * @param {Array} Array: array of objects formed from all objects put into parameters
+ * @return {Object} Object: an object with copies of all key-value pairs from all objects put into parameters
+ * 
   */
  function extend(object1, ...args) {
     for (var i = 0; i < args.length; i++) {
