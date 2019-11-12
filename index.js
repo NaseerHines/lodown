@@ -22,8 +22,12 @@ module.exports.identity = identity;
  * 
  * @param {Value} Any Value: the value that was given as 
  * an argument to be test for its type of.
- * @return {String} String: returns a strring of the type of value 
- * that was given as a argument.
+ * @return {String} String: returns the typeof value 
+ * first test if value is not an object than return its regular typeof value
+ * if value is array returns 'array'
+ * if value is null returns 'null'
+ * if value is Date returns 'date'
+ * else value must be an object and returns 'object'
  * 
  */
 function typeOf(value) {
@@ -146,8 +150,8 @@ module.exports.indexOf = indexOf;
  * each: Designed to loop over a collection, Array or Object, and applies the 
  * action Function to each value in the collection.
  * 
- * @param {Array or Object} collection: The collection over which to iterate.
- * @param {Function} action: The Function to be applied to each value in the 
+ * @param {Collection} An Array or An Object: The collection over which to iterate.
+ * @param {Func} A Function: The Function to be applied to each value in the 
  * collection
  * 
  */
@@ -188,12 +192,12 @@ module.exports.unique = unique;
 
 
  /**
- * filter: Designed to loop over a collection, Array or Object, and applies the 
+ * filter: Designed to loop over a collection, Array or Object, and apply the 
  * action Function to each value in the collection. returns a new array filled with 
  * elements that passed the callback function as true.
  * 
  * @param {Array} An Array: The array over which to iterate.
- * @param {Function} action: The Function to be applied to each value in the 
+ * @param {Func} A Function: The Function to be applied to each value in the 
  * array
  * @return {Array} An Array: Returns an array from which calling the function returned true.
  * 
@@ -217,7 +221,7 @@ module.exports.unique = unique;
  * elements that passed the callback function as false.
  * 
  * @param {Array} An Array: The array over which to iterate.
- * @param {Function} action: The Function to be applied to each value in the 
+ * @param {Func} A Function: The Function to be applied to each value in the 
  * array.
  * @return {Array} An Array: Returns an array from which calling the function returned false.
  * 
@@ -242,7 +246,7 @@ module.exports.unique = unique;
  * one with values that are truthy the other falsey
  * 
  * @param {Array} An Array: The array over which to iterate.
- * @param {Function} action: The Function to be applied to each value in the 
+ * @param {Func} A Function: The Function to be applied to each value in the 
  * array.
  * @return {Array} An Array: Returns an array with two sub arrays,
  * one with truthy values, one with falsey values.
@@ -263,8 +267,8 @@ module.exports.unique = unique;
  * action Function to each value in the collection.
  * returns a newly modified array.
  * 
- * @param {Array or Object} collection: The collection over which to iterate.
- * @param {Function} action: The Function to be applied to each value in the 
+ * @param {Collection} An Array or An Object: The collection over which to iterate.
+ * @param {Func} A Function: The Function to be applied to each value in the 
  * collection.
  * @return {array} An Array: Returns an array of modified data 
  * depending on the callback functions condition.
@@ -293,7 +297,7 @@ module.exports.unique = unique;
  * for each <array> object.
  * 
  * @param: {Array} Array: an array of objects to iterate through
- * @param: {String} Property: a property to search for in each array object
+ * @param: {Prop} String: a property to search for in each array object
  * @return: {Array} Array: an array containing the values of the given property in each object of the array
  * 
  */
@@ -312,20 +316,20 @@ module.exports.pluck = pluck;
  * else, call the function on every element of the given collection. if any element passed through the function
  * returns false, return false. otherwise, if all elements return true, return true.
  * 
- * @param {Array or Object} Collection: a collection to iterate through with the given function
- * @param {Function} Function: a function/test to run on given collection elements
+ * @param {Collection} An Array or An Object: a collection to iterate through with the given function
+ * @param {Func} A Function: a function/test to run on given collection elements
  * 
  * @return {Boolean} True or false: Returns true if there are no falsey elements in collection or no false returns from function,
  * returns false if there are any falsey elements in collection or false returns from function
  * 
  */
- function every(collection, test){
+ function every(collection, func){
     let arr = [];
-    if(!test){
+    if(!func){
         return contains(filter(collection, Boolean), true);
     }
     each(collection, function(element,iteratee,collection){
-        arr.push(test(element,iteratee,collection));
+        arr.push(func(element,iteratee,collection));
     });
     return !contains(arr, false);
  }
@@ -340,20 +344,20 @@ module.exports.pluck = pluck;
  * else, call the function on every element of the given collection. if any element passed through the function
  * returns true, return true. otherwise, if all elements return false, return false.
  * 
- * @param {Array or Object} Collection: a collection to iterate through with the given function
- * @param {Function} Function: a function/test to run on given collection elements
+ * @param {Collection} An Array or An Object: a collection to iterate through with the given function
+ * @param {Func} A Function: a function/test to run on given collection elements
  * 
  * @return {Boolean} True or false: Returns true if there are any truthy elements in collection or any true returns from function,
  * retursn false if there are no truthy elements in collection or no true returns from function
  * 
  */
- function some(collection, funct) {
+ function some(collection, func) {
     let arr = [];
-    if(!test){
+    if(!func){
         return contains(filter(collection, Boolean), true);
     }
     each(collection, function(element,iteratee,collection){
-        arr.push(test(element,iteratee,collection));
+        arr.push(func(element,iteratee,collection));
     });
     return contains(arr, true);
  }
@@ -368,9 +372,9 @@ module.exports.pluck = pluck;
  * if seed is provided, use seed as previous value, run function through array as above.
  * return final value of function as return result.
  * 
- * @param {Array} Array: an array of elements to iterate through with function
- * @param {Function} Function: a function to perform on array elements (and seed)
- * @param {Any datatype} Seed: an optional starting value to use with first array element when function is first called
+ * @param {Array} An Array: an array of elements to iterate through with function
+ * @param {Func} A Function: a function to perform on array elements (and seed)
+ * @param {Seed} Any datatype: an optional starting value to use with first array element when function is first called
  * @return {Any datatype} Previous: The result of running a function on a starting parameter, the first array element, 
  * then the next array element with the return result, etc.
  * 
