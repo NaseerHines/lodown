@@ -136,7 +136,9 @@ module.exports.indexOf = indexOf;
  * contains: Designed to see if an array contains a given value.
  * 
  * @param {Array} array: The array used to see if it contains a given. value
- * @param {Boolean} boolean: The value to be search for inside the array.
+ * @param {Datatype} value: The value to be search for inside the array.
+ * 
+ * @return {Boolean} boolean: returns true if it is in the array false if not.
  * 
  */
  function contains(array, value) {
@@ -403,8 +405,9 @@ module.exports.pluck = pluck;
  * loop through array of objects and copy key-value pairs from following objects to first object.
  * return first object.
  * 
- * @param {Array} ...args: array of objects formed from all objects put into parameters
- * @return {Object} object1: an object with copies of all key-value pairs from all objects put into parameters
+ * @param {Object} object1: the first original object to contain all other objects key value pairs and its own.
+ * @param {Array} ...args: array of objects formed from all objects put into parameters.
+ * @return {Object} object1: an object with copies of all key-value pairs from all objects put into parameters.
  * 
   */
  function extend(object1, ...args) {
